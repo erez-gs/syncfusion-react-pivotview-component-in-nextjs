@@ -28,6 +28,9 @@ registerLicense(
 
 export default function Home() {
   const [chartData, setChartData] = useState<{ x: string; y: number }[]>([]);
+  const [chartType, setChartType] = useState<
+    "Column" | "Line" | "Bar" | "Area"
+  >("Column");
 
   function onCellSelected(args: PivotCellSelectedEventArgs) {
     const selectedCells = args.selectedCellsInfo;
@@ -42,6 +45,10 @@ export default function Home() {
     });
 
     setChartData(chartData);
+  }
+
+  function handleChartTypeChange(event: React.ChangeEvent<HTMLSelectElement>) {
+    setChartType(event.target.value as "Column" | "Line" | "Bar" | "Area");
   }
 
   const dataSourceSettings: IDataOptions = {
@@ -94,22 +101,34 @@ export default function Home() {
         <Inject services={[CalculatedField, FieldList]} />
       </PivotViewComponent>
 
-      <ChartComponent
-        id="charts"
-        primaryXAxis={{ valueType: "Category" }}
-        title="Selected Data Chart"
-        dataSource={chartData}
-        tooltip={{ enable: true }}
-      >
-        <ChartInject services={[ColumnSeries, Legend, Tooltip, Category]} />
-        <SeriesCollectionDirective>
-          <SeriesDirective type="Column" xName="x" yName="y" />
-        </SeriesCollectionDirective>
-      </ChartComponent>
+      <div className="flex flex-row gap-4">
+        <ChartComponent
+          id="charts"
+          primaryXAxis={{ valueType: "Category" }}
+          title="Selected Data Chart"
+          dataSource={chartData}
+          tooltip={{ enable: true }}
+        >
+          <ChartInject services={[ColumnSeries, Legend, Tooltip, Category]} />
+          <SeriesCollectionDirective>
+            <SeriesDirective type={chartType} xName="x" yName="y" />
+          </SeriesCollectionDirective>
+        </ChartComponent>
 
-      <div className="flex flex-row gap-2">
-        <button onClick={save}>Save</button>
-        <button onClick={load}>Load</button>
+        <div className="flex flex-row gap-2">
+          <button onClick={save}>Save</button>
+          <button onClick={load}>Load</button>
+          <select
+            value={chartType}
+            onChange={handleChartTypeChange}
+            className="border p-2 rounded"
+          >
+            <option value="Column">Column</option>
+            <option value="Line">Line</option>
+            <option value="Bar">Bar</option>
+            <option value="Area">Area</option>
+          </select>
+        </div>
       </div>
     </>
   );
