@@ -109,6 +109,7 @@ export default function Home() {
         dataSourceSettings={dataSourceSettings}
         allowCalculatedField={true}
         showFieldList={true}
+        enableValueSorting={true}
         cellSelected={onCellSelected}
         gridSettings={{
           allowSelection: true,
