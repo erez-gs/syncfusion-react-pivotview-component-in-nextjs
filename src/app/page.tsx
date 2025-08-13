@@ -5,8 +5,12 @@ import {
   IDataOptions,
   IDataSet,
   Inject,
+  PDFExport,
+  ExcelExport,
   PivotCellSelectedEventArgs,
   PivotViewComponent,
+  Toolbar,
+  ToolbarItems,
 } from "@syncfusion/ej2-react-pivotview";
 import {
   ChartComponent,
@@ -69,6 +73,9 @@ export default function Home() {
   };
 
   let pivotObj: any;
+
+  let toolbarOptions: ToolbarItems[] = ["Grid", "Export"];
+
   let report: any;
 
   function save() {
@@ -78,13 +85,12 @@ export default function Home() {
     pivotObj.loadPersistData(report);
   }
 
-  function exportToExcel() {
-    pivotObj.excelExport();
-  }
-
   return (
     <>
       <PivotViewComponent
+        allowPdfExport={true}
+        showToolbar={true}
+        toolbar={toolbarOptions}
         ref={(d) => (pivotObj = d)}
         showTooltip={false}
         allowExcelExport={true}
@@ -103,7 +109,15 @@ export default function Home() {
           },
         }}
       >
-        <Inject services={[CalculatedField, FieldList]} />
+        <Inject
+          services={[
+            CalculatedField,
+            FieldList,
+            ExcelExport,
+            PDFExport,
+            Toolbar,
+          ]}
+        />
       </PivotViewComponent>
 
       <div className="flex flex-row gap-4">
@@ -123,7 +137,7 @@ export default function Home() {
         <div className="flex flex-row gap-2">
           <button onClick={save}>Save</button>
           <button onClick={load}>Load</button>
-          <button onClick={exportToExcel}>Export to Excel</button>
+
           <select
             value={chartType}
             onChange={handleChartTypeChange}
