@@ -5,9 +5,15 @@ import {
   IDataOptions,
   IDataSet,
   Inject,
+  PivotCellSelectedEventArgs,
   PivotViewComponent,
 } from "@syncfusion/ej2-react-pivotview";
 import { pivotData } from "./datasource";
+
+function onCellSelected(args: PivotCellSelectedEventArgs) {
+  // handle cell selection event here
+  console.log("Cell selected:", args);
+}
 
 export default function Home() {
   const dataSourceSettings: IDataOptions = {
@@ -30,11 +36,21 @@ export default function Home() {
   return (
     <>
       <PivotViewComponent
+        showTooltip={false}
         id="PivotView"
         height={350}
         dataSourceSettings={dataSourceSettings}
         allowCalculatedField={true}
         showFieldList={true}
+        cellSelected={onCellSelected}
+        gridSettings={{
+          allowSelection: true,
+          selectionSettings: {
+            mode: "Cell",
+            type: "Multiple",
+            cellSelectionMode: "Box",
+          },
+        }}
       >
         <Inject services={[CalculatedField, FieldList]} />
       </PivotViewComponent>
