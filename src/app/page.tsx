@@ -60,10 +60,9 @@ export default function Home() {
       { name: "Amount", caption: "Sold Amount" },
     ],
   };
-  
-  let pivotObj;
-  let report;
 
+  let pivotObj: any;
+  let report: any;
 
   function save() {
     report = pivotObj.getPersistData();
@@ -75,7 +74,7 @@ export default function Home() {
   return (
     <>
       <PivotViewComponent
-        ref={(d) => (pivotObj = d)}
+        ref={(d: any) => (pivotObj = d)}
         showTooltip={false}
         id="PivotView"
         height={350}
