@@ -2,15 +2,14 @@
 import {
   CalculatedField,
   FieldList,
-  IDataOptions,
   IDataSet,
   Inject,
-  PDFExport,
   ExcelExport,
   PivotCellSelectedEventArgs,
   PivotViewComponent,
   Toolbar,
   ToolbarItems,
+  VirtualScroll,
 } from "@syncfusion/ej2-react-pivotview";
 import {
   ChartComponent,
@@ -23,9 +22,10 @@ import {
   Category,
   Export,
 } from "@syncfusion/ej2-react-charts";
-import React, { ChangeEvent, useRef, useState } from "react";
-import { pivotData } from "./datasource";
+import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { registerLicense } from "@syncfusion/ej2-base";
+import { DataSourceSettingsModel } from "@syncfusion/ej2-pivotview/src/model/datasourcesettings-model";
+import { generateData } from "./datasource";
 
 registerLicense(
   "Ngo9BigBOggjHTQxAR8/V1JEaF1cWWhAYVJ0WmFZfVtgfF9CZFZRRmYuP1ZhSXxWdk1iWn5edXFVRGBdUUx9XEI="
@@ -57,22 +57,27 @@ export default function Home() {
     setChartType(event.target.value as "Column" | "Line" | "Bar" | "Area");
   }
 
-  const dataSourceSettings: IDataOptions = {
+  const [pivotData, setPivotData] = useState<IDataSet[]>([]);
+
+  useEffect(() => {
+    const startTime = performance.now();
+    const generatedData = generateData(10000);
+    const endTime = performance.now();
+    console.log(`generateData took ${(endTime - startTime).toFixed(3)} ms`);
+    setPivotData(generatedData);
+  }, []);
+
+  const dataSourceSettings: DataSourceSettingsModel = {
     enableSorting: true,
-    columns: [
-      { name: "Year", caption: "Production Year" },
-      { name: "Quarter" },
+    expandAll: true,
+    formatSettings: [{ name: "Price", format: "C0" }],
+    rows: [{ name: "ProductID" }],
+    columns: [{ name: "Year" }],
+    values: [
+      { name: "Price", caption: "Unit Price" },
+      { name: "Sold", caption: "Unit Sold" },
     ],
     dataSource: pivotData as IDataSet[],
-    expandAll: false,
-    filters: [],
-    drilledMembers: [{ name: "Country", items: ["France"] }],
-    formatSettings: [{ name: "Amount", format: "C0" }],
-    rows: [{ name: "Country" }, { name: "Products" }],
-    values: [
-      { name: "Sold", caption: "Units Sold" },
-      { name: "Amount", caption: "Sold Amount" },
-    ],
   };
 
   let pivotObj: any;
@@ -98,6 +103,7 @@ export default function Home() {
   return (
     <>
       <PivotViewComponent
+        virtualScrollSettings={{ allowSinglePage: true }}
         allowPdfExport={true}
         showToolbar={true}
         toolbar={toolbarOptions}
@@ -125,8 +131,8 @@ export default function Home() {
             CalculatedField,
             FieldList,
             ExcelExport,
-            PDFExport,
             Toolbar,
+            VirtualScroll,
           ]}
         />
       </PivotViewComponent>
