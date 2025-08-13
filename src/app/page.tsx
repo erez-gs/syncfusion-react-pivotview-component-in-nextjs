@@ -21,8 +21,9 @@ import {
   Legend,
   Tooltip,
   Category,
+  Export,
 } from "@syncfusion/ej2-react-charts";
-import React, { useState } from "react";
+import React, { ChangeEvent, useRef, useState } from "react";
 import { pivotData } from "./datasource";
 import { registerLicense } from "@syncfusion/ej2-base";
 
@@ -31,6 +32,7 @@ registerLicense(
 );
 
 export default function Home() {
+  let chartInstance = useRef(null);
   const [chartData, setChartData] = useState<{ x: string; y: number }[]>([]);
   const [chartType, setChartType] = useState<
     "Column" | "Line" | "Bar" | "Area"
@@ -51,11 +53,12 @@ export default function Home() {
     setChartData(chartData);
   }
 
-  function handleChartTypeChange(event: React.ChangeEvent<HTMLSelectElement>) {
+  function handleChartTypeChange(event: ChangeEvent<HTMLSelectElement>) {
     setChartType(event.target.value as "Column" | "Line" | "Bar" | "Area");
   }
 
   const dataSourceSettings: IDataOptions = {
+    enableSorting: true,
     columns: [
       { name: "Year", caption: "Production Year" },
       { name: "Quarter" },
@@ -83,6 +86,13 @@ export default function Home() {
   }
   function load() {
     pivotObj.loadPersistData(report);
+  }
+  function exportChart() {
+    console.dir(chartInstance.current.exportModule);
+
+    if (chartInstance.current && chartInstance.current.exportModule) {
+      chartInstance.current.exportModule.export("PNG", "SelectedDataChart");
+    }
   }
 
   return (
@@ -121,14 +131,18 @@ export default function Home() {
       </PivotViewComponent>
 
       <div className="flex flex-row gap-4">
+        <button onClick={exportChart}>export chart</button>
         <ChartComponent
           id="charts"
+          ref={chartInstance}
           primaryXAxis={{ valueType: "Category" }}
           title="Selected Data Chart"
           dataSource={chartData}
           tooltip={{ enable: true }}
         >
-          <ChartInject services={[ColumnSeries, Legend, Tooltip, Category]} />
+          <ChartInject
+            services={[ColumnSeries, Legend, Tooltip, Category, Export]}
+          />
           <SeriesCollectionDirective>
             <SeriesDirective type={chartType} xName="x" yName="y" />
           </SeriesCollectionDirective>
