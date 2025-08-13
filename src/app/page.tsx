@@ -60,6 +60,14 @@ export default function Home() {
       { name: "Amount", caption: "Sold Amount" },
     ],
   };
+  let pivotObj;
+  let report;
+  function save() {
+    report = pivotObj.getPersistData();
+  }
+  function load() {
+    pivotObj.loadPersistData(report);
+  }
 
   return (
     <>
@@ -95,6 +103,13 @@ export default function Home() {
           <SeriesDirective type="Column" xName="x" yName="y" />
         </SeriesCollectionDirective>
       </ChartComponent>
+      <div>
+        <button onClick={save}>Save</button>
+      </div>
+      <br />
+      <div>
+        <button onClick={load}>Load</button>
+      </div>
     </>
   );
 }
