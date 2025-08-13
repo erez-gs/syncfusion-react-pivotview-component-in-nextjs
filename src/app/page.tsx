@@ -60,8 +60,11 @@ export default function Home() {
       { name: "Amount", caption: "Sold Amount" },
     ],
   };
+  
   let pivotObj;
   let report;
+
+
   function save() {
     report = pivotObj.getPersistData();
   }
@@ -72,6 +75,7 @@ export default function Home() {
   return (
     <>
       <PivotViewComponent
+        ref={(d) => (pivotObj = d)}
         showTooltip={false}
         id="PivotView"
         height={350}
@@ -103,11 +107,9 @@ export default function Home() {
           <SeriesDirective type="Column" xName="x" yName="y" />
         </SeriesCollectionDirective>
       </ChartComponent>
-      <div>
+
+      <div className="flex flex-row gap-2">
         <button onClick={save}>Save</button>
-      </div>
-      <br />
-      <div>
         <button onClick={load}>Load</button>
       </div>
     </>
