@@ -78,11 +78,16 @@ export default function Home() {
     pivotObj.loadPersistData(report);
   }
 
+  function exportToExcel() {
+    pivotObj.excelExport();
+  }
+
   return (
     <>
       <PivotViewComponent
-        ref={(d: any) => (pivotObj = d)}
+        ref={(d) => (pivotObj = d)}
         showTooltip={false}
+        allowExcelExport={true}
         id="PivotView"
         height={350}
         dataSourceSettings={dataSourceSettings}
@@ -118,6 +123,7 @@ export default function Home() {
         <div className="flex flex-row gap-2">
           <button onClick={save}>Save</button>
           <button onClick={load}>Load</button>
+          <button onClick={exportToExcel}>Export to Excel</button>
           <select
             value={chartType}
             onChange={handleChartTypeChange}
