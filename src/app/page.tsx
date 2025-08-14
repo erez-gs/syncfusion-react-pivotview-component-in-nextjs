@@ -108,35 +108,57 @@ export default function Home() {
         style={{
           marginBottom: "16px",
           display: "flex",
-          gap: "8px",
+          gap: "16px", // Increased gap for better spacing
           flexDirection: "row",
           alignItems: "center",
+          padding: "16px", // Added padding for a cleaner look
+          backgroundColor: "#f9f9f9", // Light background for contrast
+          borderRadius: "8px", // Rounded corners for a modern look
+          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)", // Subtle shadow for depth
         }}
       >
-        <label htmlFor="numRows">Number of Rows:</label>
+        <label
+          htmlFor="numRows"
+          style={{ fontWeight: "bold", fontSize: "14px", color: "#333" }}
+        >
+          Number of Rows:
+        </label>
         <input
           value={numRows}
           onChange={(e) => setNumRows(Number(e.target.value))}
           className="border p-2 rounded"
           placeholder="Number of rows"
+          style={{
+            padding: "8px",
+            borderRadius: "4px",
+            border: "1px solid #ccc",
+            fontSize: "14px",
+          }}
         />
-        <label htmlFor="enableVirtualScroll">Enable Virtual Scroll:</label>
+        <label
+          htmlFor="enableVirtualScroll"
+          style={{ fontWeight: "bold", fontSize: "14px", color: "#333" }}
+        >
+          Enable Virtual Scroll:
+        </label>
         <input
           type="checkbox"
           checked={enableVirtualScroll}
           onChange={() => setEnableVirtualScroll((prev) => !prev)}
+          style={{ width: "16px", height: "16px" }}
         />
 
         <button
           onClick={handleGenerateData}
           style={{
-            backgroundColor: "blue",
+            backgroundColor: "#007bff",
             color: "white",
-            padding: "12px 20px", // Increased padding for a larger button
-            borderRadius: "6px", // Slightly larger border radius
+            padding: "12px 20px",
+            borderRadius: "6px",
             border: "none",
             cursor: "pointer",
-            fontSize: "16px", // Increased font size
+            fontSize: "16px",
+            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
           }}
         >
           Generate Rows
@@ -197,14 +219,48 @@ export default function Home() {
           </SeriesCollectionDirective>
         </ChartComponent>
 
-        <div className="flex flex-row gap-2">
-          <button onClick={save}>Save table layout</button>
-          <button onClick={load}>Load table layout</button>
+        <div style={{ display: "flex", gap: "8px", flexDirection: "row" }}>
+          <button
+            onClick={save}
+            style={{
+              backgroundColor: "#28a745",
+              color: "white",
+              padding: "10px 16px",
+              borderRadius: "6px",
+              border: "none",
+              cursor: "pointer",
+              fontSize: "14px",
+              boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+            }}
+          >
+            Save table layout
+          </button>
+          <button
+            onClick={load}
+            style={{
+              backgroundColor: "#ffc107",
+              color: "black",
+              padding: "10px 16px",
+              borderRadius: "6px",
+              border: "none",
+              cursor: "pointer",
+              fontSize: "14px",
+              boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+            }}
+          >
+            Load table layout
+          </button>
 
           <select
             value={chartType}
             onChange={handleChartTypeChange}
             className="border p-2 rounded"
+            style={{
+              padding: "8px",
+              borderRadius: "4px",
+              border: "1px solid #ccc",
+              fontSize: "14px",
+            }}
           >
             <option value="Column">Column</option>
             <option value="Line">Line</option>
