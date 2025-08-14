@@ -206,6 +206,23 @@ export default function Home() {
         />
       </PivotViewComponent>
       <div className="flex flex-row gap-4">
+        <select
+          value={chartType}
+          onChange={handleChartTypeChange}
+          className="border p-2 rounded"
+          style={{
+            padding: "8px",
+            borderRadius: "4px",
+            border: "1px solid #ccc",
+            fontSize: "14px",
+          }}
+        >
+          <option value="Column">Column</option>
+          <option value="Line">Line</option>
+          <option value="Bar">Bar</option>
+          <option value="Area">Area</option>
+        </select>
+
         <button onClick={exportChart}>export chart</button>
         <ChartComponent
           id="charts"
@@ -254,23 +271,6 @@ export default function Home() {
           >
             Load table layout
           </button>
-
-          <select
-            value={chartType}
-            onChange={handleChartTypeChange}
-            className="border p-2 rounded"
-            style={{
-              padding: "8px",
-              borderRadius: "4px",
-              border: "1px solid #ccc",
-              fontSize: "14px",
-            }}
-          >
-            <option value="Column">Column</option>
-            <option value="Line">Line</option>
-            <option value="Bar">Bar</option>
-            <option value="Area">Area</option>
-          </select>
         </div>
       </div>
     </>
