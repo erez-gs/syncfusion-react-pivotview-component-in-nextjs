@@ -67,8 +67,8 @@ export function generateData(numOfRows: number) {
       Price: Math.round(Math.random() * 5000) + 5000,
       Sold: Math.round(Math.random() * 80) + 10,
     });
-    if (dt / 2 == 1) {
-      dt = 0;
+    if (dt > 5) {
+      dt = 1;
     }
   }
   return result;

@@ -32,6 +32,7 @@ registerLicense(
 );
 
 export default function Home() {
+  const [enableVirtualScroll, setEnableVirtualScroll] = useState(false);
   let chartInstance = useRef(null);
   const [chartData, setChartData] = useState<{ x: string; y: number }[]>([]);
   const [chartType, setChartType] = useState<
@@ -58,14 +59,15 @@ export default function Home() {
   }
 
   const [pivotData, setPivotData] = useState<IDataSet[]>([]);
+  const [numRows, setNumRows] = useState(10000);
 
-  useEffect(() => {
-    const startTime = performance.now();
-    const generatedData = generateData(100);
-    const endTime = performance.now();
-    console.log(`generateData took ${(endTime - startTime).toFixed(3)} ms`);
+  function handleGenerateData() {
+    console.time("generateData");
+    const generatedData = generateData(numRows);
+    console.timeEnd("generateData");
+
     setPivotData(generatedData);
-  }, []);
+  }
 
   const dataSourceSettings: DataSourceSettingsModel = {
     enableSorting: true,
@@ -102,9 +104,46 @@ export default function Home() {
 
   return (
     <>
+      <div
+        style={{
+          marginBottom: "16px",
+          display: "flex",
+          gap: "8px",
+          flexDirection: "row",
+          alignItems: "center",
+        }}
+      >
+        <label htmlFor="numRows">Number of Rows:</label>
+        <input
+          value={numRows}
+          onChange={(e) => setNumRows(Number(e.target.value))}
+          className="border p-2 rounded"
+          placeholder="Number of rows"
+        />
+        <input
+          type="checkbox"
+          checked={enableVirtualScroll}
+          onChange={() => setEnableVirtualScroll((prev) => !prev)}
+        />
+
+        <button
+          onClick={handleGenerateData}
+          style={{
+            backgroundColor: "blue",
+            color: "white",
+            padding: "8px 16px",
+            borderRadius: "4px",
+            border: "none",
+            cursor: "pointer",
+          }}
+        >
+          Generate Rows
+        </button>
+      </div>
+
       <PivotViewComponent
-        // enableVirtualization={true}
         virtualScrollSettings={{ allowSinglePage: true }}
+        enableVirtualization={enableVirtualScroll}
         allowPdfExport={true}
         showToolbar={true}
         toolbar={toolbarOptions}
@@ -156,9 +195,9 @@ export default function Home() {
           </SeriesCollectionDirective>
         </ChartComponent>
 
-        <div style={{ display: "flex", gap: "8px" }}>
-          <button onClick={save}>Save Layout</button>
-          <button onClick={load}>Load Layout</button>
+        <div className="flex flex-row gap-2">
+          <button onClick={save}>Save table layout</button>
+          <button onClick={load}>Load table layout</button>
 
           <select
             value={chartType}
