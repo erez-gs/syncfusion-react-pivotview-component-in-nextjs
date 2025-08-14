@@ -59,7 +59,7 @@ export default function Home() {
   }
 
   const [pivotData, setPivotData] = useState<IDataSet[]>([]);
-  const [numRows, setNumRows] = useState(10000);
+  const [numRows, setNumRows] = useState(100);
 
   function handleGenerateData() {
     console.time("generateData");
