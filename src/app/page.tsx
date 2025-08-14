@@ -120,6 +120,7 @@ export default function Home() {
           className="border p-2 rounded"
           placeholder="Number of rows"
         />
+        <label htmlFor="enableVirtualScroll">Enable Virtual Scroll:</label>
         <input
           type="checkbox"
           checked={enableVirtualScroll}
@@ -131,10 +132,11 @@ export default function Home() {
           style={{
             backgroundColor: "blue",
             color: "white",
-            padding: "8px 16px",
-            borderRadius: "4px",
+            padding: "12px 20px", // Increased padding for a larger button
+            borderRadius: "6px", // Slightly larger border radius
             border: "none",
             cursor: "pointer",
+            fontSize: "16px", // Increased font size
           }}
         >
           Generate Rows
