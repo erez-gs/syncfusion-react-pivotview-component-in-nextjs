@@ -10,6 +10,7 @@ import {
   Toolbar,
   ToolbarItems,
   VirtualScroll,
+  ChartSeriesType,
 } from "@syncfusion/ej2-react-pivotview";
 import {
   ChartComponent,
@@ -102,6 +103,8 @@ export default function Home() {
     }
   }
 
+  const chartTypes: ChartSeriesType[] = ["Column", "Bar", "Line", "Area"];
+
   return (
     <>
       <div
@@ -166,6 +169,8 @@ export default function Home() {
       </div>
 
       <PivotViewComponent
+        displayOption={{ view: "Both" }}
+        chartTypes={chartTypes}
         virtualScrollSettings={{ allowSinglePage: true }}
         enableVirtualization={enableVirtualScroll}
         allowPdfExport={true}
@@ -200,7 +205,6 @@ export default function Home() {
           ]}
         />
       </PivotViewComponent>
-
       <div className="flex flex-row gap-4">
         <button onClick={exportChart}>export chart</button>
         <ChartComponent
