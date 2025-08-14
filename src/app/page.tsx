@@ -61,7 +61,7 @@ export default function Home() {
 
   useEffect(() => {
     const startTime = performance.now();
-    const generatedData = generateData(100000);
+    const generatedData = generateData(100);
     const endTime = performance.now();
     console.log(`generateData took ${(endTime - startTime).toFixed(3)} ms`);
     setPivotData(generatedData);
@@ -82,7 +82,7 @@ export default function Home() {
 
   let pivotObj: any;
 
-  let toolbarOptions: ToolbarItems[] = ["Grid", "Export"];
+  let toolbarOptions: ToolbarItems[] = ["Grid", "Export", "Chart"];
 
   let report: any;
 
@@ -103,7 +103,7 @@ export default function Home() {
   return (
     <>
       <PivotViewComponent
-        enableVirtualization={true}
+        // enableVirtualization={true}
         virtualScrollSettings={{ allowSinglePage: true }}
         allowPdfExport={true}
         showToolbar={true}
@@ -156,9 +156,9 @@ export default function Home() {
           </SeriesCollectionDirective>
         </ChartComponent>
 
-        <div className="flex flex-row gap-2">
-          <button onClick={save}>Save</button>
-          <button onClick={load}>Load</button>
+        <div style={{ display: "flex", gap: "8px" }}>
+          <button onClick={save}>Save Layout</button>
+          <button onClick={load}>Load Layout</button>
 
           <select
             value={chartType}
